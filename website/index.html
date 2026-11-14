@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tracing the Aral Sea</title>
+<meta name="description" content="Mapping the Aral Sea's water with NISAR radar: history, present environment and northern replenishment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="12" fill="none" stroke="#0C6E5F" stroke-width="2"/><path d="M5 15c3-3 6 2 9-1s5-2 7 0" fill="none" stroke="#1F6FA6" stroke-width="2" stroke-linecap="round"/></svg>
+      Tracing the Aral Sea
+    </a>
+    <nav class="chapters" aria-label="Chapters">
+      <a href="#history"><span>01</span>History</a>
+      <a href="#explore"><span>◎</span>Radar explorer</a>
+      <a href="#present"><span>02</span>Present</a>
+      <a href="#north"><span>03</span>North</a>
+      <a href="#evidence"><span>↳</span>Evidence</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <p class="kicker">NASA Space Apps 2026 · Dancing with the SARs</p>
+      <h1>A sea that split in two, and the half that is coming back</h1>
+      <p class="lede">Follow the Aral Sea from the 1960s to NISAR's first radar passes in 2026. The history explains why it shrank. The radar shows what the water looks like now, and how sure we can be.</p>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>4th</b><span>largest lake on Earth before the rivers were diverted</span><a href="https://earthobservatory.nasa.gov/images/77193">NASA Earth Observatory</a></div>
+      <div class="fact"><b>10%</b><span>of its original size remained by 2007, in four separate lakes</span><a href="https://en.wikipedia.org/wiki/Aral_Sea">Aral Sea overview</a></div>
+      <div class="fact"><b>34 km³</b><span>North Aral volume target for restoration phase two (a plan, not yet reached)</span><a href="https://www.trend.az/casia/kazakhstan/4144205.html">Trend, 21 Jan 2026</a></div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="questions">
+      <a class="q" href="#history"><span class="n">Chapter 01 · History</span><strong>How did this happen?</strong><em>Twelve dated moments, from river diversion to NISAR.</em></a>
+      <a class="q" href="#present"><span class="n">Chapter 02 · Present environment</span><strong>What does it look like now?</strong><em>Water and uncertainty in the latest analysed radar pass.</em></a>
+      <a class="q" href="#north"><span class="n">Chapter 03 · Northern replenishment</span><strong>Where is water appearing or disappearing?</strong><em>Measured water maps beside what officials report.</em></a>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 1 -->
+<section class="chapter" id="history">
+  <div class="wrap">
+    <div class="chhead">
+      <span class="num">Chapter 01 · History</span>
+      <h2>How did this happen?</h2>
+      <p class="prose muted">In the 1950s and 60s, the rivers that fed the Aral were diverted to irrigate cotton. Pick a moment to see what happened next. Images are for storytelling; the areas in this chapter are not our measurements, except the final entry.</p>
+    </div>
+    <div class="timeline">
+      <ol class="tl-list" id="tlList"></ol>
+      <article class="tl-card" aria-live="polite">
+        <div class="tl-media" id="tlMedia"></div>
+        <div class="tl-body">
+          <div class="meta"><span class="mono" id="tlYear"></span><span id="tlChip"></span></div>
+          <h3 id="tlTitle"></h3>
+          <p id="tlText"></p>
+          <p class="src" id="tlSrc"></p>
+          <p class="src" id="tlCredit"></p>
+          <div class="tl-nav">
+            <button class="btn" id="tlPrev" type="button" aria-label="Previous moment">← Earlier</button>
+            <button class="btn primary" id="tlNext" type="button" aria-label="Next moment">Later →</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- CENTRE STAGE: RADAR EXPLORER -->
+<section class="stage" id="explore">
+  <div class="wrap">
+    <p class="kicker" style="color:#8FE3CF">From history to measurement</p>
+    <h2>Look through the clouds with NISAR</h2>
+    <p class="prose muted" style="margin-top:12px">NISAR's L-band radar images the same ground every 12 days, day or night, through cloud. Switch between two views of the same passes: <strong style="color:#fff">brightness</strong> shows how rough the surface is, and <strong style="color:#fff">coherence</strong> shows what stayed the same between passes. Water never stays the same, so it turns black. Fade or swipe to compare.</p>
+
+    <div class="stage-grid">
+      <div>
+        <div class="viewer" id="viewer" aria-label="Radar image viewer">
+          <img class="base" id="vBase" alt="" src="img/radar/full_20260621.jpg">
+          <img class="layer" id="vTop" alt="" src="img/radar/full_20261019.jpg">
+          <img class="layer" id="vWater" alt="" src="img/water/full_20261007_20261019.png">
+          <div class="swipe-line" id="swLine" hidden></div>
+          <div class="swipe-knob" id="swKnob" hidden><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 5l-4 5 4 5M13 5l4 5-4 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="tag date" id="tagA" style="left:12px"></span>
+          <span class="tag date" id="tagB" style="right:12px"></span>
+          <span class="tag" id="lblN" style="left:62%;top:9%">North Aral</span>
+          <span class="tag" id="lblS" style="left:3%;top:40%">South Aral, west basin</span>
+          <div class="legend-bar"><div class="grad" id="lgGrad"></div><div class="ends"><span id="lgLo">Smooth · calm water</span><span id="lgHi">Rough · dry ground</span></div></div>
+        </div>
+        <div class="timebar">
+          <div class="timebar-top">
+            <button class="play" id="play" type="button" aria-label="Play through all passes"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path id="playIco" d="M5 3l10 6-10 6z" fill="currentColor"/></svg></button>
+            <div class="field" style="flex:1">
+              <label for="fadeRange" id="fadeLbl">Show the later pass: 100%</label>
+              <input id="fadeRange" type="range" min="0" max="100" value="100">
+            </div>
+          </div>
+          <div class="ticks" id="ticks" role="group" aria-label="NISAR pass dates"></div>
+          <div class="keys"><span><i style="background:#8FE3CF"></i>Analysed NISAR pass, track 107 descending, about 15:06 UTC</span></div>
+        </div>
+      </div>
+
+      <aside class="panel" aria-label="Explorer controls">
+        <div class="field"><span class="lbl">Show</span>
+          <div class="seg" role="group" aria-label="Radar layer">
+            <button type="button" id="lyrHH" aria-pressed="true">Brightness</button>
+            <button type="button" id="lyrCoh" aria-pressed="false">Coherence</button>
+          </div>
+        </div>
+        <div class="field"><span class="lbl">View</span>
+          <div class="seg" role="group" aria-label="Map extent">
+            <button type="button" id="extFull" aria-pressed="true">Whole sea</button>
+            <button type="button" id="extNorth" aria-pressed="false">North Aral</button>
+          </div>
+        </div>
+        <div class="field"><span class="lbl">Compare by</span>
+          <div class="seg" role="group" aria-label="Comparison mode">
+            <button type="button" id="modeFade" aria-pressed="true">Fade</button>
+            <button type="button" id="modeSwipe" aria-pressed="false">Swipe</button>
+          </div>
+        </div>
+        <div class="field"><label for="selA">Earlier pass</label><select id="selA"></select></div>
+        <div class="field"><label for="selB">Later pass</label><select id="selB"></select></div>
+        <label class="check"><input type="checkbox" id="chkWater" checked> Outline mapped water (later pass)</label>
+        <div class="datecard" aria-live="polite">
+          <span class="small" style="color:#A9C7BE">Later pass</span>
+          <span class="d" id="dcDate"></span>
+          <span id="dcChip"></span>
+          <dl class="kv">
+            <dt>Weather</dt><dd id="dcWx"></dd>
+            <dt>Water window</dt><dd id="dcWin"></dd>
+            <dt>North water</dt><dd id="dcN"></dd>
+            <dt>South-west water</dt><dd id="dcS"></dd>
+          </dl>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 2 -->
+<section class="chapter" id="present">
+  <div class="wrap">
+    <div class="chhead">
+      <span class="num">Chapter 02 · Present environment</span>
+      <h2>What does the area look like in the latest analysed observation?</h2>
+      <p class="prose muted">Latest analysed observation: the 12 days from <strong class="mono">7 to 19 October 2026</strong>. Blue is ground that lost all coherence over those 12 days and connects to the lake: open water. Amber is the shoreline that would change class if the coherence threshold moved by ±0.02.</p>
+    </div>
+    <div class="split">
+      <figure class="mapcard" style="margin:0">
+        <div class="frame slot full">
+          <img src="img/radar/full_20261019.jpg" alt="NISAR HH radar image of the Aral Sea region, 19 October 2026">
+          <img class="ov" id="clsImg" src="img/classes/20261007_20261019.png" alt="Mapped water in blue and uncertain shoreline in amber">
+        </div>
+        <figcaption class="cap">Water: NISAR L2 GUNW coherence, 7–19 Oct 2026. Background: GCOV HH, 19 Oct 2026. 60 m grid, track 107 descending.</figcaption>
+      </figure>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div class="classes" role="group" aria-label="Map classes">
+          <label class="cls"><span class="sw" style="background:#2684C4"></span><span><b>Open water</b><span>Lost coherence and connected to the lake</span></span><input type="checkbox" id="cWater" checked aria-label="Show open water"></label>
+          <label class="cls"><span class="sw" style="background:var(--uncertain)"></span><span><b>Uncertain shoreline</b><span>Changes class at coherence threshold ±0.02</span></span><input type="checkbox" id="cUnc" checked aria-label="Show uncertain shoreline"></label>
+          <div class="cls"><span class="sw" style="background:linear-gradient(90deg,#b73779,#fcfdbf)"></span><span><b>Exposed ground and steppe</b><span>Stayed coherent. Dry seabed is not yet separated from steppe.</span></span><span class="chip pending">Not split</span></div>
+          <div class="cls"><span class="sw" style="background:repeating-linear-gradient(45deg,#cfe3d8,#cfe3d8 4px,#fff 4px,#fff 8px)"></span><span><b>Wetlands and delta</b><span>Needs HV and optical checks</span></span><span class="chip pending">Not mapped yet</span></div>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="v">2,939 km²</div><div class="l">North Aral open water (2,930–2,944)</div></div>
+          <div class="stat"><div class="v">1,739 km²</div><div class="l">South Aral west basin (1,736–1,741)</div></div>
+        </div>
+        <p class="callout"><strong>How this compares.</strong> Kazakhstan reports the North Aral at about 3,065 km². Our radar figure is about 4% lower. Shoreline definitions, the date and our 60 m pixels can all explain a gap of that size. The radar result has not yet been checked against optical imagery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHAPTER 3 -->
+<section class="chapter" id="north">
+  <div class="wrap">
+    <div class="chhead">
+      <span class="num">Chapter 03 · Northern replenishment</span>
+      <h2>Where is water appearing, remaining or disappearing?</h2>
+      <p class="prose muted">Nine 12-day windows from June to October 2026. Each window shows where water was present throughout. Pick one, or compare the first and the last.</p>
+    </div>
+
+    <div class="strip" id="strip" role="group" aria-label="12-day coherence windows"></div>
+
+    <div class="north-grid">
+      <div>
+        <figure class="mapcard" style="margin:0">
+          <div class="frame slot north">
+            <img id="nImg" src="img/radar/north_20261019.jpg" alt="">
+            <img class="ov" id="nWater" src="img/water/north_20261007_20261019.png" alt="">
+            <img class="ov" id="nChange" src="img/change/north_first_vs_last.png" alt="Water lost and gained between late June and October" style="opacity:0">
+          </div>
+          <figcaption class="cap" id="nCap"></figcaption>
+        </figure>
+        <label class="check" style="margin-top:10px"><input type="checkbox" id="chkChange"> Compare first window (21 Jun–3 Jul) with last (7–19 Oct)</label>
+        <div class="small muted" id="chgKey" hidden><span class="sw-dot" style="background:#F07828"></span>Water lost <span class="sw-dot" style="background:#28E6C8;margin-left:12px"></span>Water gained <span class="sw-dot" style="background:#2684C4;margin-left:12px"></span>Water in both</div>
+        <div class="chg">
+          <div><b>2,938 km²</b><span>North: water in both windows</span></div>
+          <div><b style="color:#B4432F">133 km²</b><span>North: lost by October</span></div>
+          <div><b>0.5 km²</b><span>North: gained by October</span></div>
+        </div>
+      </div>
+      <div class="chart">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <h3 style="font-size:18px">Water area by 12-day window</h3>
+          <div class="seg light" role="group" aria-label="Basin">
+            <button type="button" id="bN" aria-pressed="true">North</button>
+            <button type="button" id="bS" aria-pressed="false">South-west</button>
+          </div>
+        </div>
+        <p class="small muted" style="margin-top:4px">Bars show the range when the coherence threshold moves ±0.02. All 18 windows passed the quality check.</p>
+        <svg id="chart" viewBox="0 0 440 300" role="img" aria-label="Chart of water area by 12-day window"></svg>
+        <p class="small" id="chartNote" style="margin-top:8px"></p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:40px">What has been done, reported, planned and measured</h3>
+    <p class="small muted" style="margin-top:6px">Management reports give context. They are not NISAR measurements, and a cumulative release figure is not a daily flow record.</p>
+    <div class="filter" role="group" aria-label="Filter by evidence type">
+      <button type="button" data-f="all" aria-pressed="true">All</button>
+      <button type="button" data-f="done" aria-pressed="false">Completed</button>
+      <button type="button" data-f="reported" aria-pressed="false">Reported</button>
+      <button type="button" data-f="target" aria-pressed="false">Target</button>
+      <button type="button" data-f="measured" aria-pressed="false">Measured here</button>
+    </div>
+    <div class="ledger" id="ledger"></div>
+  </div>
+</section>
+
+<!-- EVIDENCE -->
+<section class="chapter" id="evidence">
+  <div class="wrap">
+    <div class="chhead">
+      <span class="num">How strong is the evidence?</span>
+      <h2>What you can trust, and what still needs checking</h2>
+    </div>
+    <div class="evidence">
+      <div class="ev"><h3>The historical collapse</h3><div class="meter" aria-label="Strength 5 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i></div><p class="small">Decades of satellite images and field studies agree. We show published material and do not recalculate it.</p></div>
+      <div class="ev"><h3>Where the water is now</h3><div class="meter" aria-label="Strength 4 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i class="f"></i><i></i></div><p class="small">Coherence separates water from land on every window, with a narrow uncertainty band, and lands within about 4% of the official North Aral area. An optical cross-check is still to come.</p></div>
+      <div class="ev"><h3>Change within 2026</h3><div class="meter" aria-label="Strength 3 of 5"><i class="f"></i><i class="f"></i><i class="f"></i><i></i><i></i></div><p class="small">The shrinkage along shallow margins is larger than the uncertainty band. Four months cannot separate seasonal evaporation from management, and area alone says little about water level in steep basins.</p></div>
+    </div>
+
+    <div class="compare">
+      <div class="ev"><span class="chip fail" style="align-self:flex-start">First attempt</span><h3>Radar brightness (GCOV HH)</h3><span class="big">2 of 6</span><p class="small">basin-dates passed the quality check. Wind roughens water until it is as bright as land.</p></div>
+      <div class="ev"><span class="chip measured" style="align-self:flex-start">Method used</span><h3>Interferometric coherence (GUNW)</h3><span class="big">18 of 18</span><p class="small">basin-windows passed. Water decorrelates over 12 days whatever the wind; water and land coherence medians were about 0.10 and 0.33–0.64.</p></div>
+    </div>
+
+    <div class="methods" style="margin-top:40px">
+      <div>
+        <h3>Method</h3>
+        <ol class="steps small" style="margin-top:12px">
+          <li>Downloaded 18 NISAR L2 GCOV and 18 L2 GUNW files (provisional P05023), track 107 descending, from NASA Earthdata.</li>
+          <li>Backscatter: averaged HH and HV power in 3×3 blocks to 60 m, stitched frames 065–067 and converted to decibels.</li>
+          <li>Coherence: read the 80 m coherence of frames 065 and 066 for each 12-day pair and resampled it to the same 60 m grid.</li>
+          <li>For each pair and basin, chose the threshold that best separates a known water area from known land areas, and required at least 90% balanced accuracy.</li>
+          <li>Kept low-coherence areas connected to each lake and filled enclosed gaps under 50 km².</li>
+          <li>Reported area at the chosen threshold and at ±0.02, then compared the first and last windows pixel by pixel.</li>
+        </ol>
+        <h3 style="margin-top:24px">Next</h3>
+        <ol class="steps small" style="margin-top:12px">
+          <li>Validate against Sentinel-2 or Landsat on nearby cloud-free dates.</li>
+          <li>Combine area with satellite lake-level data to estimate volume.</li>
+          <li>Map the Syr Darya delta wetlands with the HV channel.</li>
+        </ol>
+        <p class="small muted" style="margin-top:16px">Code: <span class="mono">tools/gcov_to_db.py</span> → <span class="mono">tools/coherence_water.py</span> → <span class="mono">tools/make_web_images.py</span>.</p>
+      </div>
+      <div>
+        <h3>Measurements</h3>
+        <p class="small muted" style="margin:8px 0 12px">Every area on this page, with its quality check.</p>
+        <pre class="csv" id="csv"></pre>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:10px">
+          <button class="btn" type="button" id="copyCsv">Copy CSV</button>
+          <span class="small muted" id="copyMsg" aria-live="polite"></span>
+        </div>
+        <h3 style="margin-top:24px">Data files</h3>
+        <ul class="small" style="margin:8px 0 0;padding-left:18px">
+          <li><a href="data/water_boundaries.json">water_boundaries.json</a>: water outlines (GeoJSON) for every 12-day window and basin (WGS84; opens in QGIS)</li>
+          <li><a href="data/coherence_water_area.csv">coherence_water_area.csv</a>: areas, thresholds and quality checks</li>
+          <li><a href="data/change_summary.json">change_summary.json</a>: water lost, gained and persistent, June vs October</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:40px">References</h3>
+    <ol class="refs" style="margin-top:12px">
+      <li><a href="https://earthobservatory.nasa.gov/images/77193">The Aral Sea, Before the Streams Ran Dry</a>, NASA Earth Observatory.</li>
+      <li><a href="https://svs.gsfc.nasa.gov/10862">Shrinking Aral Sea</a>, NASA Scientific Visualization Studio.</li>
+      <li><a href="https://earthobservatory.nasa.gov/images/7645/north-aral-sea-recovery">North Aral Sea Recovery</a>, NASA Earth Observatory.</li>
+      <li><a href="https://earthobservatory.nasa.gov/images/84437/the-aral-sea-loses-its-eastern-lobe">The Aral Sea Loses Its Eastern Lobe</a>, NASA Earth Observatory.</li>
+      <li><a href="https://zin.ru/conferences/Aral2009/doc/ABSTRACTS%20ARAL'09.pdf">Aladin, The Aral Sea: Already Dead, Dying, or Alive?</a>, Aral 2009 abstracts.</li>
+      <li><a href="https://www.trend.az/casia/kazakhstan/4144205.html">North Aral volume target of 34 km³</a>, Trend, 21 Jan 2026.</li>
+      <li><a href="https://timesca.com/?p=42561">Phase two aims: 23 to 34 km³, about 3,065 to 3,913 km²</a>, Times of Central Asia.</li>
+      <li><a href="https://astanatimes.com/2026/07/kazakhstan-steps-up-aral-restoration-water-infrastructure-and-conservation-reforms/">1.4 km³ directed since 1 Oct 2025</a>, Astana Times, July 2026.</li>
+      <li><a href="https://www.trend.az/casia/kazakhstan/4216239.html">North Aral volume 23.40 km³ as of 10 Aug 2026</a>, Trend.</li>
+      <li><a href="https://earthobservatory.nasa.gov/images/84437">MODIS views of the Aral, 2000 and 2014</a>, NASA Earth Observatory.</li>
+    </ol>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Built for NASA Space Apps 2026, "Dancing with the SARs". Radar: NASA/ISRO NISAR, provisional products, processed by the team. Historical images and captions: NASA Earth Observatory. Management figures are as reported by the named outlets and have not been verified by the team.</p>
+  </div>
+</footer>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="onlyBlue"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  -2 0 2.2 0 0"/></filter>
+  <filter id="onlyAmber"><feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  2.2 0 -2 0 0"/></filter>
+</svg>
+<script src="js/utils.js"></script>
+<script src="js/data.js"></script>
+<script src="js/timeline.js"></script>
+<script src="js/explorer.js"></script>
+<script src="js/present.js"></script>
+<script src="js/north.js"></script>
+<script src="js/ledger.js"></script>
+<script src="js/downloads.js"></script>
+<script src="js/nav.js"></script>
+</body>
+</html>
