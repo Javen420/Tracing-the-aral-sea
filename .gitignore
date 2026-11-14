@@ -1,0 +1,6 @@
+.DS_Store
+# large rasters & raw NISAR data (share separately)
+*.tif
+*.tiff
+*.aux.xml
+*.h5
