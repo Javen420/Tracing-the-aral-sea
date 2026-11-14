@@ -1,0 +1,7 @@
+basin,frm,to,expansion_km2,retreat_km2,net_km2,both_dates_pass
+North,20260621,20260820,2453.7,45.1,2408.5,False
+North,20260820,20261019,216.4,674.7,-458.3,True
+North,20260621,20261019,1953.6,3.4,1950.2,False
+South_West,20260621,20260820,1435.7,7.8,1427.9,False
+South_West,20260820,20261019,5.3,1695.5,-1690.1,False
+South_West,20260621,20261019,38.4,300.7,-262.2,False

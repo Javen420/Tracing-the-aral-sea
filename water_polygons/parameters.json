@@ -1,0 +1,61 @@
+{
+  "input": "GCOV HH dB, 60 m, EPSG:32640",
+  "filter": "3x3 median",
+  "dates": [
+    "20260621",
+    "20260820",
+    "20261019"
+  ],
+  "threshold": "per date and basin: maximises balanced accuracy between water and land reference boxes",
+  "gate": 0.9,
+  "delta_dB": 0.5,
+  "min_component_pixels": 25,
+  "lake_body": "candidate components touching the water reference box; enclosed holes < MAX_HOLE_KM2 filled (wind patches); wind patches touching the shore are NOT recovered",
+  "basins": {
+    "North": {
+      "water_box_km": [
+        735,
+        5145,
+        752,
+        5160
+      ],
+      "land_boxes_km": [
+        [
+          640,
+          5180,
+          680,
+          5200
+        ],
+        [
+          770,
+          5100,
+          800,
+          5120
+        ]
+      ]
+    },
+    "South_West": {
+      "water_box_km": [
+        609,
+        4960,
+        615,
+        4990
+      ],
+      "land_boxes_km": [
+        [
+          630,
+          4950,
+          650,
+          4990
+        ],
+        [
+          640,
+          5000,
+          660,
+          5040
+        ]
+      ]
+    }
+  },
+  "caveat": "Unvalidated. Wind-roughened water is misclassified as land. Use only gate_pass rows; confirm with GUNW coherence / Sentinel-2."
+}

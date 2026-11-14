@@ -1,0 +1,21 @@
+{
+  "first": "20260621_20260703",
+  "last": "20261007_20261019",
+  "n_pairs": 9,
+  "stats": {
+    "North": {
+      "persistent_km2": 2938.1,
+      "lost_km2": 133.1,
+      "gained_km2": 0.5,
+      "water_every_pair_km2": 2904.9,
+      "water_some_pairs_km2": 173.4
+    },
+    "South_West": {
+      "persistent_km2": 1736.1,
+      "lost_km2": 35.8,
+      "gained_km2": 2.5,
+      "water_every_pair_km2": 1731.3,
+      "water_some_pairs_km2": 50.1
+    }
+  }
+}

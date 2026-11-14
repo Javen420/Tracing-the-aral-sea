@@ -1,0 +1,56 @@
+{
+  "product": "NISAR L2 GUNW unwrappedInterferogram/HH/coherenceMagnitude (80 m) resampled bilinear to 60 m",
+  "filter": "3x3 median",
+  "threshold": "per pair and basin, maximises balanced accuracy of water vs land reference boxes",
+  "gate": 0.9,
+  "sensitivity": 0.02,
+  "min_component_pixels": 25,
+  "max_hole_km2": 50,
+  "basins": {
+    "North": {
+      "water": [
+        735,
+        5145,
+        752,
+        5160
+      ],
+      "land": [
+        [
+          640,
+          5180,
+          680,
+          5200
+        ],
+        [
+          770,
+          5100,
+          800,
+          5120
+        ]
+      ]
+    },
+    "South_West": {
+      "water": [
+        609,
+        4960,
+        615,
+        4990
+      ],
+      "land": [
+        [
+          630,
+          4950,
+          650,
+          4990
+        ],
+        [
+          640,
+          5000,
+          660,
+          5040
+        ]
+      ]
+    }
+  },
+  "note": "Coherence measures change over the 12-day interval: an area is water if it decorrelated over the whole pair."
+}

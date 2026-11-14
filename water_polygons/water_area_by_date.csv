@@ -1,0 +1,7 @@
+date,basin,threshold_dB,balanced_accuracy,gate_pass,water_km2,km2_at_threshold_minus_0_5,km2_at_threshold_plus_0_5,water_median_dB,land_median_dB
+20260621,North,-22.3,0.63,False,208.7,191.4,219.1,-19.8,-19.9
+20260621,South_West,-21.2,0.653,False,325.9,299.1,357.4,-19.3,-19.2
+20260820,North,-22.0,0.929,True,2617.2,2396.9,2735.7,-25.1,-19.7
+20260820,South_West,-22.6,0.949,True,1753.9,1741.2,1760.4,-25.7,-19.0
+20261019,North,-21.6,0.947,True,2158.9,1735.1,2545.5,-24.0,-19.4
+20261019,South_West,-22.2,0.529,False,63.7,51.4,156.5,-17.6,-19.3
