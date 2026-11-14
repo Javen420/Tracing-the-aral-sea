@@ -1,6 +1,13 @@
-.DS_Store
-# large rasters & raw NISAR data (share separately)
-*.tif
-*.tiff
+# Large data lives in the sibling folder "../aral sea DATA" (not committed).
+# These are symlinks to it:
+nisar_raw
+aral_out
+exports
+
+# large rasters & raw NISAR data (never commit)
 *.aux.xml
 *.h5
+*.tif
+*.tiff
+*.npy
+.DS_Store
