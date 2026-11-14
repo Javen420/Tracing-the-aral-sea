@@ -11,3 +11,4 @@ exports
 *.tiff
 *.npy
 .DS_Store
+__pycache__/
