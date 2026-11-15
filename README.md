@@ -2,6 +2,30 @@
 
 NASA Space Apps 2026, "Dancing with the SARs". Maps open water in the North Aral and the South Aral western basin from NISAR L-band radar, June–October 2026, and presents it in an interactive website.
 
+**[Explore the deployed interactive atlas →](https://javen420.github.io/Tracing-the-aral-sea/website/)**
+
+<p align="center">
+  <img src="website/img/radar/north_20260621.jpg" alt="NISAR radar view of the North Aral Sea on 21 June 2026" width="48%">
+  <img src="website/img/change/north_first_vs_last.png" alt="Map showing water lost, gained, and present in both the June and October observations" width="48%">
+</p>
+<p align="center"><sub>Radar brightness on 21 June (left); mapped water change from late June to October (right).</sub></p>
+
+## The Aral Sea through time
+
+<p align="center">
+  <img src="website/img/history/aral_sea_history.gif" alt="Animated historic image series showing changes to the Aral Sea over time" width="640">
+</p>
+<p align="center"><sub>Historic image series of the Aral Sea. Source: <a href="https://www.youtube.com/live/NxFNoHBCuwA">YouTube live stream</a>.</sub></p>
+
+## NISAR input time series
+
+<p align="center">
+  <img src="website/img/radar/NISAR_images_time_series.gif" alt="Animated time series of NISAR radar images used for the North Aral analysis" width="640">
+</p>
+<p align="center"><sub>NISAR radar observations of the North Aral Sea, June–October 2026.</sub></p>
+
+The website presents the results without requiring the raw satellite data. The processing pipeline below is for reproducing the analysis.
+
 ## Data
 
 NISAR provisional products (P05023), track 107 descending, frames 065 / 066 / 067, from NASA Earthdata (ASF).
@@ -72,4 +96,24 @@ The lowest score is the south-west basin on 24 June (F1 0.785), just after rain.
 
 ## Website
 
-Serve the folder (`cd website && python3 -m http.server`) and open http://localhost:8000. It is a set of interactive "plates": a radar time-lapse, a drag-through history, a scroll story explaining coherence, a "spot the water" quiz, a live threshold lab, a radar-vs-Sentinel-2 lens and swipe, the 9-window North Aral chart, and the evidence table. See `website/README.md` for the file layout.
+The atlas includes a radar time-lapse, historical image comparison, a guided explanation of the mapping method, a water-identification quiz, a live coherence-threshold lab, a radar-versus-Sentinel-2 comparison, and the North Aral area trend with supporting evidence.
+
+**[Open the deployed atlas](https://javen420.github.io/Tracing-the-aral-sea/website/)** or see the [website README](website/README.md) for a feature overview and local setup instructions.
+
+To run it locally, serve the `website` folder. No build step or npm dependencies are required. From the repository root:
+
+**Windows PowerShell**
+
+```powershell
+cd website
+py -m http.server 8000
+```
+
+**macOS or Linux**
+
+```sh
+cd website
+python3 -m http.server 8000
+```
+
+Then open http://localhost:8000. Use the local server for the full feature set; opening `index.html` directly may prevent the threshold lab from reading image pixels.
