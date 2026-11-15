@@ -1,20 +1,21 @@
 /* All content and measurements shown on the site.
-   To update after re-running the pipeline, edit WIN (from data/coherence_water_area.csv)
-   and the change numbers in index.html (from data/change_summary.json). */
+   Numbers come from data/coherence_water_area.csv, data/s2_validation.csv and data/change_summary.json. */
 (function (A) {
   "use strict";
 
-  /* ---------- Image locations: one place to change folder names ---------- */
+  /* ---------- Image locations ---------- */
   A.paths = {
-    radar:     function (view, date) { return "img/radar/" + view + "_" + date + ".jpg"; },       // GCOV HH brightness
-    coherence: function (view, tag)  { return "img/coherence/" + view + "_" + tag + ".jpg"; },    // GUNW coherence
-    water:     function (view, tag)  { return "img/water/" + view + "_" + tag + ".png"; },        // water outline overlay
-    classes:   function (tag)        { return "img/classes/" + tag + ".png"; },                   // water + uncertain shoreline
-    change:    function (view)       { return "img/change/" + view + "_first_vs_last.png"; },     // lost / gained / both
-    history:   function (file)       { return "img/history/" + file; }                            // NASA historical images
+    radar:     function (view, date) { return "img/radar/" + view + "_" + date + ".jpg"; },        // NISAR GCOV HH brightness
+    coherence: function (view, tag)  { return "img/coherence/" + view + "_" + tag + ".jpg"; },     // NISAR GUNW coherence
+    water:     function (view, tag)  { return "img/water/" + view + "_" + tag + ".png"; },         // water outline overlay
+    change:    function (view)       { return "img/change/" + view + "_first_vs_last.png"; },      // lost / gained / both
+    optical:   function (view, date) { return "img/optical/" + view + "_" + date + ".jpg"; },      // Sentinel-2 true colour (preview, ~320 m)
+    agree:     function (view, tag)  { return "img/agree/" + view + "_" + tag + ".png"; },         // radar vs optical agreement
+    lab:       function (tag)        { return "img/lab/north_coh_" + tag + ".png"; },              // coherence as 8-bit grey for the threshold lab
+    history:   function (file)       { return "img/history/" + file; }
   };
 
-  /* ---------- Chapter 1: timeline ---------- */
+  /* ---------- Plate 01: history ---------- */
   A.TIMELINE = [
     { yr: "1950s–60s", t: "Rivers diverted to grow cotton", kind: "done", label: "History",
       x: "Soviet projects diverted the Syr Darya and Amu Darya, the two rivers that fed the Aral, to turn desert into farmland. The sea has been shrinking ever since.",
@@ -60,58 +61,48 @@
       x: "Kazakhstan plans to raise the North Aral to 34 km³ and about 3,913 km². It reports 1.4 km³ directed into the sea since October 2025.",
       src: "Trend, Jan 2026; Astana Times, Jul 2026", url: "https://www.trend.az/casia/kazakhstan/4144205.html", img: "2026_nisar.jpg",
       credit: "NISAR radar brightness (GCOV HH), 19 Oct 2026. Processed by the team" },
-    { yr: "Jun–Oct 2026", t: "Our NISAR analysis", kind: "measured", label: "Measured here",
-      x: "Nine 12-day NISAR coherence windows map the North Aral at 3,071 km² of open water in late June and 2,939 km² by mid October. Orange marks the 133 km² of shallow margin that dried; blue stayed water throughout.",
+    { yr: "Jun–Oct 2026", t: "Our NISAR measurement", kind: "measured", label: "Measured here",
+      x: "Nine 12-day NISAR coherence windows map the North Aral at 3,071 km² of open water in late June and 2,939 km² by mid October. Red marks the 133 km² of shallow margin that dried.",
       src: "This project", url: "#north", img: "2026_analysis.jpg",
       credit: "NISAR GUNW coherence, 21 Jun–3 Jul vs 7–19 Oct 2026. Processed by the team" }
   ];
 
   /* ---------- NISAR passes (GCOV, track 107 descending, ~15:06 UTC) ---------- */
-  A.PASSES = [
-    { id: "20260621", s: "21 Jun", l: "21 June 2026",      wx: "Wind on the North Aral" },
-    { id: "20260703", s: "3 Jul",  l: "3 July 2026",       wx: "Heavy rain beforehand" },
-    { id: "20260715", s: "15 Jul", l: "15 July 2026",      wx: "Windy" },
-    { id: "20260727", s: "27 Jul", l: "27 July 2026",      wx: "Windy over the north" },
-    { id: "20260820", s: "20 Aug", l: "20 August 2026",    wx: "Calm" },
-    { id: "20260901", s: "1 Sep",  l: "1 September 2026",  wx: "Calm" },
-    { id: "20260913", s: "13 Sep", l: "13 September 2026", wx: "Not checked" },
-    { id: "20261007", s: "7 Oct",  l: "7 October 2026",    wx: "Windy over the north" },
-    { id: "20261019", s: "19 Oct", l: "19 October 2026",   wx: "Calm" }
-  ];
+  A.PASSES = ["20260621", "20260703", "20260715", "20260727", "20260820", "20260901", "20260913", "20261007", "20261019"];
 
-  /* ---------- 12-day coherence windows (GUNW). Areas in km², range = threshold ±0.02. All passed the quality check. ----------
-     [ref, sec, north, northLow, northHigh, southWest, southWestLow, southWestHigh] */
+  /* ---------- 12-day coherence windows + Sentinel-2 check ----------
+     n/s: NISAR open water km² (North / South-west), lo/hi at threshold ±0.02, thr = coherence cut-off used.
+     sN/sS: Sentinel-2 comparison [date, days from window midpoint, F1, IoU, area diff % (radar − optical), % cloud-free,
+            radar km² in cloud-free part, optical km² in cloud-free part] */
   A.WIN = [
-    ["20260621", "20260703", 3071.2, 3055.0, 3080.9, 1771.9, 1745.5, 1780.9],
-    ["20260703", "20260715", 3063.3, 3045.3, 3072.4, 1767.4, 1754.5, 1774.1],
-    ["20260715", "20260727", 3019.7, 3011.9, 3025.3, 1769.6, 1764.1, 1773.9],
-    ["20260727", "20260820", 2994.5, 2985.2, 3001.1, 1764.7, 1757.2, 1768.9],
-    ["20260820", "20260901", 2947.3, 2938.1, 2955.3, 1753.5, 1749.6, 1756.4],
-    ["20260901", "20260913", 2921.6, 2913.4, 2927.6, 1752.0, 1747.4, 1756.0],
-    ["20260913", "20260925", 2922.0, 2914.5, 2927.1, 1744.4, 1740.2, 1747.2],
-    ["20260925", "20261007", 2951.4, 2943.5, 2959.0, 1742.3, 1736.8, 1745.5],
-    ["20261007", "20261019", 2938.6, 2929.8, 2944.4, 1738.6, 1735.7, 1741.2]
+    ["20260621", "20260703", 3071.2, 3055.0, 3080.9, 0.15, 1771.9, 1745.5, 1780.9, 0.14, ["2026-07-04", 7, 0.958, 0.919, -8.1, 78.8, 3043, 3312], ["2026-06-24", 3, 0.785, 0.646, -35.0, 84.4, 1702, 2621]],
+    ["20260703", "20260715", 3063.3, 3045.3, 3072.4, 0.15, 1767.4, 1754.5, 1774.1, 0.15, ["2026-07-09", 0, 0.985, 0.971, -2.7, 86.0, 3036, 3121], ["2026-07-12", 3, 0.987, 0.975, -2.2, 61.5, 1717, 1756]],
+    ["20260715", "20260727", 3019.7, 3011.9, 3025.3, 0.17, 1769.6, 1764.1, 1773.9, 0.17, ["2026-07-19", 2, 0.984, 0.968, -3.2, 84.7, 3017, 3118], ["2026-07-19", 2, 0.989, 0.978, -2.1, 87.3, 1713, 1750]],
+    ["20260727", "20260820", 2994.5, 2985.2, 3001.1, 0.17, 1764.7, 1757.2, 1768.9, 0.16, ["2026-08-08", 0, 0.989, 0.978, -2.0, 85.9, 2994, 3056], ["2026-08-08", 0, 0.991, 0.982, -1.6, 87.3, 1714, 1742]],
+    ["20260820", "20260901", 2947.3, 2938.1, 2955.3, 0.17, 1753.5, 1749.6, 1756.4, 0.18, ["2026-08-25", 1, 0.986, 0.973, -2.7, 43.8, 1951, 2004], ["2026-08-23", 3, 0.984, 0.969, -3.0, 86.7, 1707, 1759]],
+    ["20260901", "20260913", 2921.6, 2913.4, 2927.6, 0.17, 1752.0, 1747.4, 1756.0, 0.18, ["2026-09-07", 0, 0.983, 0.967, -3.3, 85.8, 2921, 3020], ["2026-09-05", 2, 0.987, 0.975, -2.2, 61.5, 1704, 1742]],
+    ["20260913", "20260925", 2922.0, 2914.5, 2927.1, 0.17, 1744.4, 1740.2, 1747.2, 0.18, ["2026-09-24", 5, 0.980, 0.961, -3.9, 19.4, 828, 862], ["2026-09-15", 4, 0.937, 0.881, -11.9, 61.9, 1697, 1927]],
+    ["20260925", "20261007", 2951.4, 2943.5, 2959.0, 0.17, 1742.3, 1736.8, 1745.5, 0.17, ["2026-09-27", 4, 0.982, 0.965, -2.7, 85.5, 2949, 3031], ["2026-09-30", 1, 0.986, 0.973, -2.6, 60.5, 1696, 1742]],
+    ["20261007", "20261019", 2938.6, 2929.8, 2944.4, 0.17, 1738.6, 1735.7, 1741.2, 0.20, ["2026-10-12", 1, 0.980, 0.960, -3.9, 85.9, 2936, 3057], ["2026-10-12", 1, 0.984, 0.969, -3.1, 86.9, 1691, 1746]]
   ].map(function (r) {
-    return { ref: r[0], sec: r[1], tag: r[0] + "_" + r[1], n: r[2], nlo: r[3], nhi: r[4], s: r[5], slo: r[6], shi: r[7] };
+    function s2(a) { return { date: a[0], gap: a[1], f1: a[2], iou: a[3], dA: a[4], usable: a[5], radar: a[6], optical: a[7] }; }
+    return { ref: r[0], sec: r[1], tag: r[0] + "_" + r[1], n: r[2], nlo: r[3], nhi: r[4], nthr: r[5], s: r[6], slo: r[7], shi: r[8], sthr: r[9],
+             s2N: s2(r[10]), s2S: s2(r[11]), days: Math.round((Date.UTC(+r[1].slice(0, 4), +r[1].slice(4, 6) - 1, +r[1].slice(6)) - Date.UTC(+r[0].slice(0, 4), +r[0].slice(4, 6) - 1, +r[0].slice(6))) / 864e5) };
   });
-
+  A.S2_POOLED = { N: { f1: 0.980, iou: 0.962 }, S: { f1: 0.954, iou: 0.912 } };
+  A.CHANGE = { lost: 133.1, gained: 0.5, persistent: 2938.1 };
   A.OFFICIAL_NORTH_KM2 = 3065;   // Times of Central Asia, phase-two description
 
   A.winLabel = function (w) { return A.shortDate(w.ref) + "–" + A.shortDate(w.sec); };
-  /* the 12-day window that ends on a pass (the first pass uses the first window) */
-  A.winFor = function (pass) {
-    for (var i = 0; i < A.WIN.length; i++) if (A.WIN[i].sec === pass.id) return A.WIN[i];
-    return A.WIN[0];
-  };
 
-  /* ---------- Chapter 3: evidence ledger ---------- */
+  /* ---------- Plate 06: evidence ledger ---------- */
   A.LEDGER = [
     { f: "done", w: "2005", t: "Kok-Aral Dam completed, separating the North Aral from the south.", src: "NASA Earth Observatory", u: "https://earthobservatory.nasa.gov/images/7645/north-aral-sea-recovery" },
     { f: "reported", w: "Jan 2026", t: "North Aral volume rose from 18.4 km³ (early 2023) to about 23 km³.", src: "Trend, 21 Jan 2026", u: "https://www.trend.az/casia/kazakhstan/4144205.html" },
     { f: "target", w: "Jan 2026", t: "Phase two aims for 34 km³ and about 3,913 km² within 4–5 years, including rebuilding the Kok-Aral Dam to raise the level to 44 m.", src: "Times of Central Asia", u: "https://timesca.com/?p=42561" },
     { f: "reported", w: "Jul 2026", t: "1.4 km³ directed into the North Aral through the Syr Darya since 1 Oct 2025 (cumulative, not a daily record).", src: "Astana Times", u: "https://astanatimes.com/2026/07/kazakhstan-steps-up-aral-restoration-water-infrastructure-and-conservation-reforms/" },
     { f: "reported", w: "10 Aug 2026", t: "North Aral volume 23.40 km³.", src: "Trend, 19 Aug 2026", u: "https://www.trend.az/casia/kazakhstan/4216239.html" },
-    { f: "measured", w: "21 Jun–3 Jul", t: "NISAR coherence maps 3,071 km² of open water in the North Aral (3,055–3,081).", src: "This project, GUNW", u: "#evidence" },
-    { f: "measured", w: "7–19 Oct", t: "NISAR coherence maps 2,939 km² (2,930–2,944): 133 km² of shallow margin lost since June, under 1 km² gained.", src: "This project, GUNW", u: "#evidence" }
+    { f: "measured", w: "21 Jun–3 Jul", t: "NISAR coherence maps 3,071 km² of open water in the North Aral, matching the reported ≈3,065 km² within 0.2%.", src: "This project", u: "#story" },
+    { f: "measured", w: "7–19 Oct", t: "NISAR maps 2,939 km²: 133 km² of shallow margin dried since June, under 1 km² newly wet. Sentinel-2 agrees (F1 0.98).", src: "This project", u: "#check" }
   ];
 })(window.ARAL);

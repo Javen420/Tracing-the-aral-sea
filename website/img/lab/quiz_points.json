@@ -1,0 +1,56 @@
+{
+ "pair": "20260621_20260703",
+ "image": "20260621",
+ "width": 960,
+ "height": 650,
+ "points": [
+  {
+   "x": 422,
+   "y": 383,
+   "water": false,
+   "hh": -21.4,
+   "kind": "dark land",
+   "why": "Smooth dry salt flats and sand are dark in radar brightness too."
+  },
+  {
+   "x": 638,
+   "y": 302,
+   "water": true,
+   "hh": -19.1,
+   "kind": "bright water",
+   "why": "Wind-roughened water scatters the radar back, so it looks as bright as land."
+  },
+  {
+   "x": 400,
+   "y": 269,
+   "water": true,
+   "hh": -18.9,
+   "kind": "bright water",
+   "why": "Wind-roughened water scatters the radar back, so it looks as bright as land."
+  },
+  {
+   "x": 11,
+   "y": 339,
+   "water": false,
+   "hh": -21.3,
+   "kind": "dark land",
+   "why": "Smooth dry salt flats and sand are dark in radar brightness too."
+  },
+  {
+   "x": 378,
+   "y": 328,
+   "water": true,
+   "hh": -24.6,
+   "kind": "dark water",
+   "why": "Calm water reflects the beam away like a mirror, so it looks dark."
+  },
+  {
+   "x": 85,
+   "y": 407,
+   "water": false,
+   "hh": -16.8,
+   "kind": "bright land",
+   "why": "Rough ground scatters strongly, so it looks bright."
+  }
+ ]
+}
