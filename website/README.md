@@ -1,48 +1,65 @@
-# Website: Tracing the Aral Sea
+# Tracing the Aral Sea
 
-A static "field atlas" with no build step. You can serve the folder with any web server (for example `python3 -m http.server` then open http://localhost:8000). Opening `index.html` straight from disk also works, except the **Lab** plate. Browsers block reading image pixels from `file://`, so the Lab shows a note asking you to serve the folder.
+**[Explore the deployed interactive atlas →](https://javen420.github.io/Tracing-the-aral-sea/website/)**
 
-The page is a run of numbered "plates". Each plate is something you can interact with:
+A static, no-build website that presents our June–October 2026 mapping of open water in the North Aral Sea using NISAR radar observations.
 
-| Plate | What it does | Script |
-|---|---|---|
-| 00 Hero | Time-lapse of the 9 North Aral radar passes, with an area counter and the −133 km² stamp | `hero.js` |
-| 01 History | Drag-to-compare scrubber through 60 years of NASA/USGS images | `history.js` |
-| 02 Radar | Scroll story: a sticky map changes layers as you read 7 steps | `story.js` |
-| 03 Quiz | "Spot the water": guess 6 points on the windy 21 June image, then check against coherence | `quiz.js` |
-| 04 Lab | Coherence threshold slider. Live flood fill from the lake seed and area in km², with our pipeline's cut-off marked | `lab.js` |
-| 05 Check | Radar vs Sentinel-2 lens and swipe, with an agreement layer and F1 / area difference | `lens.js` |
-| 06 North | 9-window small multiples, area chart with ±0.02 band, official figure and Sentinel-2 points, plus the ledger | `north.js`, `ledger.js` |
-| 07 Evidence | Validation table, method, CSV, data downloads and references | `evidence.js` |
+## Preview
 
+<p align="center">
+  <img src="img/radar/north_20260621.jpg" alt="NISAR radar view of the North Aral Sea on 21 June 2026" width="48%">
+  <img src="img/change/north_first_vs_last.png" alt="Map showing water lost, gained, and present in both the June and October observations" width="48%">
+</p>
+<p align="center"><sub>Radar brightness on 21 June (left); mapped water change from late June to October (right).</sub></p>
+
+## Explore the atlas
+
+The page is organized into interactive plates:
+
+| Plate | What you can explore |
+|---|---|
+| 00 · Overview | A nine-pass radar time-lapse and changing water-area estimate |
+| 01 · History | A timeline of the Aral Sea's retreat and restoration efforts |
+| 02 · Radar method | A guided explanation of how paired radar observations help map water |
+| 03 · Quiz | Identify water and land in a radar image, then check the answer key |
+| 04 · Threshold lab | Adjust the coherence cut-off and see how the mapped area changes |
+| 05 · Satellite check | Compare the radar map with Sentinel-2 optical imagery |
+| 06 · North Aral | Review the nine-window area trend, uncertainty range, and evidence ledger |
+| 07 · Evidence | Read the validation results, method, data, and references |
+
+## Run locally
+
+The site has no build step or npm dependencies. For all features—including the threshold lab—serve the `website` folder with a local web server. Opening `index.html` directly may prevent the lab from reading image pixels because browsers restrict that access for `file://` pages.
+
+From the repository root, run one of these commands:
+
+**Windows PowerShell**
+
+```powershell
+cd website
+py -m http.server 8000
 ```
+
+**macOS or Linux**
+
+```sh
+cd website
+python3 -m http.server 8000
+```
+
+Then open [http://localhost:8000](http://localhost:8000). Leave the terminal running while you use the site; press `Ctrl+C` to stop the server.
+
+## Project files
+
+```text
 website/
-├── index.html            page structure and text
-├── css/styles.css        all styles (paper palette and fonts in :root)
-├── js/
-│   ├── utils.js          shared helpers (ARAL namespace, formatting, countTo, onVisible)
-│   ├── data.js           ALL numbers and paths: passes, 9 windows, Sentinel-2 stats, timeline, ledger
-│   ├── hero.js  history.js  story.js  quiz.js  lab.js  lens.js  north.js  ledger.js  evidence.js
-│   └── nav.js            masthead plate highlight
-├── data/
-│   ├── water_boundaries.json      water outlines per window and basin (WGS84)
-│   ├── coherence_water_area.csv   areas, thresholds, quality checks
-│   ├── s2_validation.csv          radar vs Sentinel-2 agreement per window and basin
-│   └── change_summary.json        lost / gained / persistent water, first vs last window
-└── img/
-    ├── radar/      {full,north}_<YYYYMMDD>.jpg     GCOV HH brightness, 9 passes
-    ├── coherence/  {full,north}_<ref>_<sec>.jpg    GUNW coherence, 9 windows
-    ├── water/      {full,north}_<ref>_<sec>.png    water outline overlays
-    ├── classes/    <ref>_<sec>.png                 water + uncertain shoreline
-    ├── change/     {full,north}_first_vs_last.png  water lost / gained / in both
-    ├── lab/        north_coh_<pair>.png            8-bit coherence (value = 1 + 254×coh, 0 = no data) for the Lab
-    ├── optical/    {full,north}_<date>.jpg         Sentinel-2 L2A previews (~320 m)
-    ├── agree/      {full,north}_<pair>.png         both / radar only / optical only / no optical data
-    └── history/    timeline images (NASA / USGS, public domain)
+├── index.html       Page structure and copy
+├── css/styles.css   Layout, typography, and colors
+├── js/              Plain JavaScript scripts that share window.ARAL
+├── data/            Water boundaries, area measurements, and validation tables
+└── img/             Radar, coherence, water, change, optical, and history images
 ```
 
-Scripts are plain scripts sharing `window.ARAL`, not ES modules. They load in the order listed in `index.html`.
+The scripts load in order from `index.html`; `utils.js` provides shared helpers and `data.js` contains the display data and image paths. Analysis images are produced by project scripts in `tools/`; historical images are credited on the page. If you rerun the analysis, review the displayed values in `js/data.js` as well.
 
-Images are produced by `tools/make_web_images.py` (radar, coherence, water, change, lab) and `tools/sentinel2_validate.py` (optical, agree, s2_validation.csv). If you re-run the pipeline, update the numbers in `js/data.js`.
-
-Fonts: Fraunces, Source Sans 3 and IBM Plex Mono (Google Fonts). Reduced-motion users get no auto-play or animation.
+The site uses Fraunces, Source Sans 3, and IBM Plex Mono from Google Fonts. Reduced-motion preferences are respected.
