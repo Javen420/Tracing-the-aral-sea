@@ -2,6 +2,11 @@
 (function (A) {
   "use strict";
   var nav = document.querySelector(".plates-nav"), links = nav.querySelectorAll("a");
+  // Masthead height can change (menu wraps on mid-size screens), so publish it as --mast-h for sticky elements.
+  var mast = document.querySelector(".mast");
+  function setMast() { document.documentElement.style.setProperty("--mast-h", Math.ceil(mast.getBoundingClientRect().height) + "px"); }
+  setMast(); window.addEventListener("resize", setMast);
+  if ("ResizeObserver" in window) new ResizeObserver(setMast).observe(mast);
   if (!("IntersectionObserver" in window)) return;
   var io = new IntersectionObserver(function (entries) {
     entries.forEach(function (e) {

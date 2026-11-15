@@ -5,6 +5,13 @@
   var $ = A.$, TL = A.TIMELINE, N = TL.length;
   var range = $("histRange"), imA = $("histA"), imB = $("histB"), years = $("histYears"), stamp = $("histStamp");
   var STEP = 100, cur = -1, pairA = -1, pairB = -1;
+  // Resistance: share of each gap (at both ends) where the image holds still before it starts to fade.
+  // 0 = no resistance, 0.3 = firm (default), 0.45 = very sticky.
+  var HOLD = 0.3;
+  function sticky(f) {
+    if (f <= HOLD) return 0; if (f >= 1 - HOLD) return 1;
+    var k = (f - HOLD) / (1 - 2 * HOLD); return k * k * (3 - 2 * k);
+  }
   range.max = (N - 1) * STEP;
 
   TL.forEach(function (e, i) {
@@ -33,7 +40,7 @@
     var j = Math.min(i + 1, N - 1);
     if (pairA !== i) { imA.src = A.paths.history(TL[i].img); imA.alt = TL[i].t + " (" + TL[i].yr + ")"; pairA = i; }
     if (pairB !== j) { imB.src = A.paths.history(TL[j].img); imB.alt = TL[j].t + " (" + TL[j].yr + ")"; pairB = j; }
-    imB.style.opacity = f;
+    imB.style.opacity = sticky(f);
     card(Math.round(v / STEP));
   }
 
@@ -49,6 +56,14 @@
     anim = requestAnimationFrame(tick);
   }
 
+  // Call to action: dim it once the reader has used the slider; nudge the slider once when the plate first appears.
+  var touched = false, cta = $("histCta");
+  function used() { if (touched) return; touched = true; if (cta) cta.classList.add("done"); }
+  range.addEventListener("pointerdown", used); range.addEventListener("keydown", used); years.addEventListener("click", used);
+  if (!A.reduceMotion) A.onVisible($("histFrame"), function () {
+    setTimeout(function () { if (!touched) glide(STEP * 0.6); }, 700);
+    setTimeout(function () { if (!touched) glide(0); }, 1900);
+  });
   range.addEventListener("input", render);
   range.addEventListener("change", function () { glide(Math.round(+range.value / STEP) * STEP); });   // snap on release
   $("histPrev").addEventListener("click", function () { glide(Math.max(0, cur - 1) * STEP); });

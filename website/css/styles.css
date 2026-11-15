@@ -160,6 +160,13 @@ input[type=range] { width: 100%; accent-color: var(--ink); min-height: 32px }
 .lens-frame { touch-action: pan-y; cursor: crosshair; user-select: none }
 .lens-frame.swipe { touch-action: none; cursor: ew-resize }
 .lens-frame .base, .lens-frame .opt { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover }
+.lens-frame .opt { will-change: clip-path; transform: translateZ(0) }
+.lens-frame .ov { will-change: opacity; transform: translateZ(0) }
+.lens-ring, .lens-frame .sw-line, .lens-win { left: 0; top: 0; will-change: transform }
+.lens-win { position: absolute; border-radius: 50%; overflow: hidden; pointer-events: none; z-index: 1 }
+.lens-win img { position: absolute; left: 0; top: 0; max-width: none; object-fit: cover; will-change: transform }
+.lens-frame .ov, .lens-ring, .lens-frame .sw-line { z-index: 2 }
+.lens-frame .tag { z-index: 3 }
 .lens-ring { position: absolute; width: 180px; height: 180px; margin: -90px 0 0 -90px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1.5px var(--ink); pointer-events: none }
 .sw-line { position: absolute; top: 0; bottom: 0; width: 2px; background: #fff; box-shadow: 0 0 0 1px var(--ink); pointer-events: none }
 .pulse { animation: pulse 1.8s ease-in-out infinite }
@@ -224,3 +231,17 @@ footer { padding: 40px 0 72px; border-top: 2px solid var(--ink); font-size: 15px
   .plates9 { grid-template-columns: repeat(2, minmax(0, 1fr)) }
   .scrub-years button { font-size: 10px; writing-mode: vertical-rl; transform: rotate(180deg); text-align: right; min-height: 64px }
 }
+
+/* masthead height is measured in nav.js so sticky elements never slide under it */
+:root { --mast-h: 57px }
+html { scroll-padding-top: calc(var(--mast-h) + 12px) }
+.story .story-map { top: calc(var(--mast-h) + 20px) }
+@media (max-width: 920px) { .story .story-map { top: var(--mast-h) } }
+.explain { margin-top: 14px; padding: 10px 14px; border-left: 3px solid var(--water); background: var(--card); font-size: 13.5px; line-height: 1.5; color: var(--ink-2) }
+.explain p { margin: 0 } .explain p + p { margin-top: 8px }
+.explain b { color: var(--ink) }
+.cta { display: block; margin-top: 12px; font-size: 14.5px; color: var(--ink-2); transition: opacity .6s }
+.cta b { color: var(--ink) }
+.cta-arrow { font-family: var(--mono); color: var(--water); font-weight: 700; display: inline-block; margin-right: 8px; animation: nudge 1.6s ease-in-out infinite }
+.cta.done { opacity: .55 } .cta.done .cta-arrow { animation: none }
+@keyframes nudge { 0%, 100% { transform: translateX(0) } 50% { transform: translateX(5px) } }

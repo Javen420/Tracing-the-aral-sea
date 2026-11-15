@@ -88,6 +88,7 @@
           <input id="histRange" type="range" min="0" max="1100" step="1" value="0">
           <div class="scrub-years" id="histYears"></div>
         </div>
+        <p class="cta" id="histCta"><span class="cta-arrow" aria-hidden="true">⟵ ⟶</span> <b>Drag the slider</b> or tap a year to watch the sea change over 60 years. Each moment is explained in the card.</p>
       </div>
       <article class="hist-card" aria-live="polite">
         <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="yr" id="histYr"></span><span id="histChip"></span></div>
@@ -127,6 +128,7 @@
           <span class="tag leader-tag" id="storyPin" style="left:41.7%;top:41.4%">← wind-roughened water</span>
         </div>
         <div class="story-readout"><span class="coord" id="storyLegend">Dark = smooth · Bright = rough</span><span class="big" id="storyKm">—</span></div>
+        <p class="explain" id="storyGloss" aria-live="polite"></p>
       </div>
       <div class="story-steps" id="storySteps">
         <div class="step" data-step="1"><div class="card"><span class="n">STEP 1 / 7</span><h3>Radar measures the surface</h3><p>NISAR sends L-band microwaves toward Earth and measures the signal reflected back. Surface roughness affects that return. On 21 June, wind-roughened water scattered the signal strongly, making parts of the lake look as bright as the desert.</p></div></div>
@@ -186,6 +188,7 @@
       <div>
         <div class="frame ratio-north"><canvas id="labCanvas" width="960" height="650" aria-label="Coherence map with water shown in blue at the chosen threshold" role="img"></canvas></div>
         <div class="legend"><span><i style="background:#2f78b0"></i>Water at this cut-off</span><span><i style="background:#ddd"></i>Coherent ground (unchanged)</span><span><i style="background:#222"></i>Changed but not connected to the lake</span></div>
+        <p class="explain"><b>Coherence cut-off.</b> Every pixel has a coherence between 0 (changed completely) and 1 (unchanged). Pixels below the cut-off count as "changed", and only those connected to the lake count as water. <b>Our cut-off</b> (red mark) isn't hand-picked: for each window the pipeline tests every value and keeps the one that best separates a box of known open water from boxes of known dry land. The lab uses coarser 161 m pixels than the 60 m pipeline, so its area differs slightly.</p>
       </div>
       <div class="lab-panel">
         <div>
@@ -244,6 +247,11 @@
           <div><b id="lnUse">—</b><span>cloud-free</span></div>
         </div>
         <p class="small muted" id="lnNote"></p>
+        <div class="explain">
+          <p><b>Agreement (F1).</b> How well the radar and Sentinel-2 water maps overlap, from 0 to 1. It compares cells both call water against cells only one calls water: F1 = 2 × both ÷ (2 × both + radar-only + optical-only). 0.98 means they match on 98%.</p>
+          <p><b>Radar vs optical area.</b> Radar water area minus Sentinel-2 water area, as a share of the Sentinel-2 area. Negative means the radar mapped slightly less water, usually on shallow shores.</p>
+          <p><b>Cloud-free.</b> Share of the basin Sentinel-2 saw clearly. Its camera can't see through cloud, so cloudy or shadowed 60 m cells are left out and only the clear part is compared. Radar sees through cloud, which is why NISAR is useful here.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -269,6 +277,11 @@
         <svg id="chart" viewBox="0 0 520 340" role="img" aria-label="Chart of open water area by 12-day window, radar and Sentinel-2"></svg>
         <div class="legend"><span><i style="background:var(--ink);border-radius:50%"></i>NISAR radar</span><span><i style="background:var(--card);border:2px solid var(--optical);border-radius:50%"></i>Sentinel-2 (cloud-free part)</span><span><i class="hatch"></i>Threshold ±0.02</span></div>
         <p class="small" id="chartNote" style="margin-top:10px"></p>
+        <div class="explain">
+          <p><b>How area is calculated.</b> The map is a grid of 60 × 60 m cells, each 0.0036 km². We count the cells mapped as lake water and multiply: area = cells × 0.0036 km². Enclosed gaps under 50 km² are filled in first.</p>
+          <p><b>Threshold ±0.02 band.</b> We re-run each window with the coherence cut-off nudged 0.02 lower and higher. The shaded band is the range of areas this gives, a simple measure of how sensitive the result is.</p>
+          <p><b>Area, not volume.</b> We measure surface area. Volume needs water depth or level, which these radar products don't give us, so volume figures on this page (for example 18.4 → 23 km³) are official reports, not our measurements.</p>
+        </div>
       </div>
       <div>
         <h3>Done, reported, planned and measured</h3>
@@ -305,6 +318,10 @@
     <h3 style="margin-top:44px">Radar vs Sentinel-2, every window</h3>
     <p class="small muted" style="margin-top:6px">F1 and IoU: 1.0 means identical water maps. Area difference = radar minus optical, inside the cloud-free part. <span class="tier">Amber</span>: under 70% cloud-free or over 6 days apart. <span class="lo">Red</span>: F1 below 0.95.</p>
     <div class="scroll-x"><table class="vtable" id="vtable"></table></div>
+    <div class="explain">
+      <p><b>IoU (intersection over union).</b> Cells both maps call water ÷ cells either map calls water. Like F1 it runs from 0 to 1, but it is stricter: one wrongly mapped cell lowers IoU more than F1.</p>
+      <p><b>Days apart.</b> Days between the Sentinel-2 photo and the middle of the 12-day radar window. The closer, the fairer the comparison, because the shoreline can move in between.</p>
+    </div>
     <p class="small" style="margin-top:12px">Both maps agree closely in open water. They part ways on shallow margins: on 24 June, after heavy rain, Sentinel-2 saw about 900 km² of extra water or wet mud on the South-west basin's flat eastern shore that the radar did not count. Sentinel-2's own built-in "water" class fails over this salty basin (F1 ≈ 0.46), so we used the shortwave-infrared band instead.</p>
 
     <div class="methods" style="margin-top:44px">
