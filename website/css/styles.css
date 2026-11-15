@@ -255,3 +255,11 @@ html { scroll-padding-top: calc(var(--mast-h) + 12px) }
 .thr-wrap input[type=range]::-moz-range-thumb { width: var(--thumb); height: var(--thumb); border-radius: 50%; background: var(--ink); border: 2px solid var(--card); box-shadow: 0 0 0 1px var(--ink); box-sizing: border-box }
 .thr-wrap input[type=range]:focus-visible { outline: 2px solid var(--water); outline-offset: 2px }
 .thr-mark { top: 4px; height: 24px; transform: translateX(-50%) }
+
+/* Plate 05 key: only meaningful when the disagreement layer is on */
+.lens-legend .lg-hint { flex-basis: 100%; font-family: var(--body); font-size: 13px; color: var(--ink-2) }
+.lens-legend.off span:not(.lg-hint) { opacity: .4 }
+
+/* Plate 05: on-image note that the optical photo can be partial */
+.lens-frame .lens-disclaimer { left: 12px; bottom: 12px; top: auto; white-space: normal; max-width: min(78%, 420px); font-size: 10.5px; line-height: 1.35; background: color-mix(in srgb, var(--paper) 88%, transparent) }
+@media (max-width: 520px) { .lens-frame .lens-disclaimer { font-size: 9.5px; max-width: 90% } }

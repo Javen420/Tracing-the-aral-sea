@@ -3,7 +3,7 @@
 (function (A) {
   "use strict";
   var $ = A.$, W = A.WIN, frame = $("lensFrame"), base = $("lensBase"), opt = $("lensOpt"), agree = $("lensAgree");
-  var ring = $("lensRing"), line = $("lensLine"), sel = $("lnWin");
+  var ring = $("lensRing"), line = $("lensLine"), sel = $("lnWin"), legend = $("lensLegend"), hint = $("lensLegendHint");
   // Lens mode: a small round window holding a second copy of the optical image. Moving it only changes
   // transforms (GPU), so nothing is repainted while the pointer moves. Swipe mode clips the full image.
   var win = document.createElement("div"), winImg = document.createElement("img");
@@ -55,6 +55,7 @@
       opt.style.clipPath = "inset(0 0 0 " + px + "%)"; line.style.transform = "translate3d(" + X + "px,0,0)"; line.hidden = false; ring.hidden = true;
     }
     agree.style.opacity = st.agree ? 1 : 0; agree.classList.toggle("pulse", st.agree && !A.reduceMotion);
+    if (legend) { legend.classList.toggle("off", !st.agree); hint.innerHTML = st.agree ? "Disagreement layer:" : "Tick <b>Show where they disagree</b> to colour the map:"; }
   }
   function schedule() { if (!raf) raf = requestAnimationFrame(function () { raf = 0; clip(); }); }
 

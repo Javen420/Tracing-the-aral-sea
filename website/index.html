@@ -232,8 +232,15 @@
           <div class="sw-line" id="lensLine" hidden></div>
           <span class="tag" id="lensTagR" style="top:12px;left:12px">NISAR</span>
           <span class="tag" id="lensTagO" style="top:12px;right:12px">SENTINEL-2</span>
+          <span class="tag lens-disclaimer">Sentinel-2 photo may be partial: solid dark areas are outside the satellite's path that day (no photo), not dark water.</span>
         </div>
-        <div class="legend"><span><i style="background:rgb(38,132,196)"></i>Water in both</span><span><i style="background:rgb(240,120,40)"></i>Radar only</span><span><i style="background:rgb(170,90,230)"></i>Optical only</span><span><i style="background:#888"></i>Cloud or no optical data</span></div>
+        <div class="legend lens-legend off" id="lensLegend"><span class="lg-hint" id="lensLegendHint">Tick <b>Show where they disagree</b> to colour the map:</span><span><i style="background:rgb(38,132,196)"></i>Water in both</span><span><i style="background:rgb(240,120,40)"></i>Radar only</span><span><i style="background:rgb(170,90,230)"></i>Optical only</span><span><i style="background:#888"></i>Cloud or no optical data</span></div>
+        <div class="explain two-eyes">
+          <p><b>Two different ways of seeing the same lake.</b></p>
+          <p><b>Radar (NISAR, the purple map)</b> sends out its own microwaves and records what bounces back. It works at night and straight through cloud, and it sees surface texture, not colour: rough surfaces look bright, smooth ones dark. That is why wind-roughened water can look like land.</p>
+          <p><b>Optical (Sentinel-2, inside the lens or right of the swipe line)</b> is a camera. It records reflected sunlight, so it needs daylight and a clear sky, and it only photographs a strip of Earth along its flight path on each pass, so some dates cover only part of the lake. In shortwave infrared, water is reliably dark, which makes it a good independent check.</p>
+          <p><b>Why overlay them?</b> The two satellites measure completely different physics. Where both say "water", we can trust the map; where they disagree, it is usually shallow shore, wet mud or reeds that sit between water and land.</p>
+        </div>
       </div>
       <div class="lab-panel">
         <div style="display:flex;gap:10px;flex-wrap:wrap">
