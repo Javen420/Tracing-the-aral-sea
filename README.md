@@ -25,6 +25,7 @@ On a fresh clone, create that folder (or the three folders here) before running 
 | 2 | `python3 tools/gcov_to_db.py` | `aral_out/<date>_HH_dB.tif`, `_HV_dB.tif`: 60 m, 3×3 linear-power average, frames stitched |
 | 3 | `python3 tools/coherence_water.py` | `aral_out/coh_<pair>.tif`, `water_polygons/coherence/` (GeoJSON polygons, `coherence_water_area.csv`) |
 | 4 | `python3 tools/make_web_images.py` | `website/img/` (radar, coherence, water outlines, change map) and `water_polygons/coherence/change_summary.json` |
+| 5 | `python3 tools/sentinel2_validate.py` | Sentinel-2 check: `water_polygons/sentinel2/` (`s2_validation.csv`, summary JSON, optical water GeoJSON) and `website/img/{optical,agree}/`. Needs the scenes in `../aral sea DATA/sentinel2/` (list and links: `docs/sentinel2_scenes.md`) |
 | — | `tools/make_water_polygons.py` | First method (HH brightness thresholds), kept for comparison: `water_polygons/` |
 | — | `tools/export_layers_to_tif.py` | QGIS Processing tool: export styled layers to GeoTIFF |
 
@@ -39,6 +40,7 @@ QGIS project: `Aral Sea 3 month imagery.qgz`.
 4. **Lake body.** Water is the low-coherence area connected to the lake reference box. Enclosed gaps under 50 km² are filled.
 5. **Uncertainty.** Each area is also reported at threshold ±0.02.
 6. **Change.** The first window (21 Jun–3 Jul) is compared with the last (7–19 Oct) pixel by pixel.
+7. **Optical check.** For each window and basin, the clearest Sentinel-2 L2A scene within a few days (free, no login, AWS Earth Search) is turned into a water map. The map uses SWIR band B11 averaged to 60 m and an Otsu threshold. Clouds and shadows are masked with the scene classification, and the same lake-connected rule is applied. Radar and optical maps are compared only where the scene is at least 90% clear, using F1, IoU, kappa and area difference.
 
 ## Results (km²)
 
@@ -50,9 +52,19 @@ QGIS project: `Aral Sea 3 month imagery.qgz`.
 - **North, June → October:** 133 km² lost (shallow margins), 0.5 km² gained.
 - **Comparison:** the officially reported North Aral area is about 3,065 km².
 
+**Radar vs Sentinel-2 (all 9 windows, pooled):**
+
+| Basin | F1 | IoU |
+|---|---|---|
+| North Aral | 0.980 | 0.962 |
+| South-west basin | 0.954 | 0.912 |
+
+The lowest score is the south-west basin on 24 June (F1 0.785), just after rain. Sentinel-2 mapped extra shallow water and wet mud on the eastern shore that the radar did not count as lake. Radar areas are 2–4% smaller than optical in most windows, because the shallow, vegetated margins are where the two sensors disagree.
+
 ## Limitations
 
-- Not yet validated against optical imagery (Sentinel-2 / Landsat).
+- Sentinel-2 dates are up to 7 days from the radar window, and some scenes are partly cloudy; those rows are flagged in the table.
+- The optical threshold hit its upper clamp (0.12) in every scene, so very shallow water may be under-counted in the optical maps too.
 - A coherence window means water was present over 12 days, not on a single date.
 - Four months cannot separate seasonal evaporation from management effects.
 - Area is a poor proxy for water level in the steep-sided western basin.
@@ -60,12 +72,4 @@ QGIS project: `Aral Sea 3 month imagery.qgz`.
 
 ## Website
 
-Open `website/index.html` in a browser. It has three chapters:
-
-1. **History:** a sourced timeline.
-2. **Present environment:** the latest analysed coherence window.
-3. **Northern replenishment:** 9 windows, area chart, change map, and an evidence ledger.
-
-It also includes a radar explorer (brightness / coherence, fade / swipe) and a section on evidence strength.
-
-Historical NASA images go in `website/img/history/`, named `1960s.jpg`, `1964.jpg`, `1973_1989_2000.jpg`, `2000.jpg`, `2005.jpg`, `2007.jpg` and `2014.jpg`.
+Serve the folder (`cd website && python3 -m http.server`) and open http://localhost:8000. It is a set of interactive "plates": a radar time-lapse, a drag-through history, a scroll story explaining coherence, a "spot the water" quiz, a live threshold lab, a radar-vs-Sentinel-2 lens and swipe, the 9-window North Aral chart, and the evidence table. See `website/README.md` for the file layout.
