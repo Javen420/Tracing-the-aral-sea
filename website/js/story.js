@@ -13,13 +13,23 @@
     6: { stamp: "CHANGE · JUN → OCT", legend: "Water lost since late June", km: -A.CHANGE.lost, loss: true },
     7: { stamp: "SENTINEL-2 · 12 OCT", legend: "Agreement with Sentinel-2 (F1)", km: 0.98, f1: true }
   };
+  var G = {
+    1: "<b>Radar brightness</b> (backscatter): how much of the radar signal bounces back to the satellite. Rough surfaces send more back and look bright; smooth ones look dark.",
+    2: "<b>L-band</b>: NISAR uses microwaves about 24 cm long. They pass through cloud and work day or night, so every pass is usable.",
+    3: "<b>Coherence</b>: a score from 0 to 1 for how similar the radar echo is between two passes 12 days apart. 1 = unchanged (desert, rock); near 0 = changed completely (moving water).",
+    4: "<b>How the area is measured</b>: the map is a grid of 60 × 60 m cells (0.0036 km² each). Water cells connected to the lake are counted: area = cells × 0.0036 km². This is surface area, not water volume.",
+    5: "<b>12-day window</b>: each map uses two passes 12 days apart, so it shows where water was during that window, not on a single day.",
+    6: "<b>Change map</b>: the June and October maps compared cell by cell. Red = water in June, dry by October; blue = newly wet.",
+    7: "<b>F1 score</b>: overlap between two maps, 0 to 1. F1 = 2 × both ÷ (2 × both + radar-only + optical-only). Only the cloud-free part of the photo is compared."
+  };
+  var gloss = $("storyGloss");
   var current = 0;
 
   function go(n) {
     if (n === current) return; current = n; var s = S[n];
     A.each(layers, function (im) { im.classList.toggle("show", im.getAttribute("data-s").split(" ").indexOf(String(n)) >= 0); });
     A.each(steps, function (st) { st.classList.toggle("active", +st.getAttribute("data-step") === n); });
-    stamp.textContent = s.stamp; legend.textContent = s.legend; pin.hidden = !s.pin;
+    stamp.textContent = s.stamp; legend.textContent = s.legend; pin.hidden = !s.pin; if (gloss) gloss.innerHTML = G[n];
     km.style.color = s.loss ? "var(--loss)" : "var(--water)";
     if (s.km == null) { km.textContent = "—"; km._v = null; return; }
     if (s.f1) { km._v = 0; A.countTo(km, s.km, { format: function (v) { return "F1 " + v.toFixed(2); } }); return; }
