@@ -1,0 +1,21 @@
+{
+  "North": {
+    "pooled_f1": 0.9804,
+    "pooled_iou": 0.9615,
+    "median_f1": 0.983,
+    "min_f1": 0.9575,
+    "max_f1": 0.9889,
+    "mean_area_diff_pct": -3.62,
+    "n": 9
+  },
+  "South_West": {
+    "pooled_f1": 0.9542,
+    "pooled_iou": 0.9124,
+    "median_f1": 0.9864,
+    "min_f1": 0.7852,
+    "max_f1": 0.9908,
+    "mean_area_diff_pct": -7.07,
+    "n": 9
+  },
+  "method": "Sentinel-2 L2A B11 SWIR reflectance < Otsu threshold (0.02-0.12), SCL cloud mask, 60 m mean, >=90% clear, lake-connected; compared with NISAR coherence water"
+}
