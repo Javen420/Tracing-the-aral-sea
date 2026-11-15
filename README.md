@@ -53,8 +53,14 @@ On a fresh clone, create that folder (or the three folders here) before running 
 | — | `tools/make_water_polygons.py` | First method (HH brightness thresholds), kept for comparison: `water_polygons/` |
 | — | `tools/export_layers_to_tif.py` | QGIS Processing tool: export styled layers to GeoTIFF |
 
-Python: numpy, h5py, rasterio, scipy, shapely, pillow, matplotlib.
-QGIS project: `Aral Sea 3 month imagery.qgz`.
+## Tools
+
+| Tool | Used for |
+|---|---|
+| **ArcGIS** | Preliminary analysis: first look at the NISAR scenes over the Aral Sea before building the pipeline |
+| **Python** (numpy, h5py, rasterio, scipy, shapely, pillow, matplotlib) | The processing pipeline above. It reads the NISAR HDF5 files directly (no GIS export step), resamples to the 60 m grid, maps water and draws the website images |
+| **QGIS** | Inspecting, styling and exporting the results. Project: `Aral Sea 3 month imagery.qgz` (9 dates of HH and HV brightness, 9 coherence windows, water outlines). `tools/export_layers_to_tif.py` exports styled layers to GeoTIFF; `tools/coherence_water_polygons.py` runs the outline step from the QGIS Python console |
+| **d3-geo** + Natural Earth | Locator maps on the website (rendered to GIF) |
 
 ## Method
 

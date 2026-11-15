@@ -377,6 +377,7 @@
           <li>Kept low-coherence areas connected to each lake; filled enclosed gaps under 50 km²; reported area at the cut-off and at ±0.02.</li>
           <li>Sentinel-2 L2A (AWS open data): shortwave-infrared reflectance below an Otsu threshold, clouds masked, averaged to 60 m, same clean-up, compared pixel by pixel.</li>
         </ol>
+        <p class="small" style="margin-top:14px"><b>Tools.</b> ArcGIS for preliminary analysis of the NISAR scenes. Python (h5py, rasterio, NumPy, SciPy, Shapely) for the processing pipeline, reading the NISAR HDF5 files directly. QGIS to inspect, style and export the layers. d3-geo with Natural Earth boundaries for the locator maps.</p>
         <p class="small muted" style="margin-top:14px">Code, in order: <span class="mono">gcov_to_db.py → coherence_water.py → sentinel2_validate.py → make_web_images.py</span></p>
       </div>
       <div>
