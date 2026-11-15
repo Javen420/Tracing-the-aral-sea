@@ -6,7 +6,7 @@
   var $ = A.$, W = A.WIN, cv = $("labCanvas"), ctx = cv.getContext("2d");
   var WD = 960, HT = 650, PIX_KM2 = (155000 / 960) * (105000 / 650) / 1e6;
   var SEED = { x0: 341, x1: 446, y0: 217, y1: 309 }, MAX_HOLE = Math.round(50 / PIX_KM2);
-  var sel = $("labWin"), thr = $("labThr"), coh = null, win = W[W.length - 1], pending = false;
+  var sel = $("labWin"), thr = $("labThr"), coh = null, win = W[W.length - 1], pending = false, refArea = null;
 
   W.forEach(function (w, i) {
     var o = document.createElement("option"); o.value = i; o.textContent = A.winLabel(w) + " 2026" + (w.days > 12 ? " (24 days)" : "");
@@ -20,15 +20,19 @@
       ctx.drawImage(im, 0, 0, WD, HT);
       try { coh = ctx.getImageData(0, 0, WD, HT).data; }
       catch (e) { coh = null; $("labNote").textContent = "Your browser blocked reading the image from disk. Run the site with npm start (a local server) to use the lab."; return; }
-      thr.value = win.nthr; mark(); draw();
+      // like-for-like reference: the lab's own area at our cut-off (red line), so both numbers match there
+      thr.value = win.nthr; mark(); refArea = null; draw();
+      refArea = lastArea; $("labRef").textContent = A.fmt(refArea);
+      $("labFull").textContent = "Full-resolution pipeline (60 m, smoothed): " + A.fmt(win.n) + " km² at the same cut-off.";
     };
     im.src = A.paths.lab(win.tag);
   }
 
+  var lastArea = 0;
   function mark() {
     var lo = +thr.min, hi = +thr.max, f = (win.nthr - lo) / (hi - lo);
-    $("labMark").style.left = "calc(" + (f * 100) + "% + " + (8 - f * 16) + "px)";
-    $("labRef").textContent = A.fmt(win.n);
+    // thumb centre runs from thumb/2 to (width - thumb/2); 18px thumb is set in styles.css (.thr-wrap --thumb)
+    $("labMark").style.left = "calc(9px + (100% - 18px) * " + f + ")";
   }
 
   function draw() {
@@ -67,12 +71,12 @@
       o[j + 3] = 255;
     }
     ctx.putImageData(out, 0, 0);
-    var area = count * PIX_KM2;
+    var area = count * PIX_KM2; lastArea = area;
     $("labKm").textContent = A.fmt(area);
     $("labThrVal").textContent = t.toFixed(2);
-    var d = area - win.n, pct = d / win.n * 100;
+    var base = refArea == null ? area : refArea, d = area - base, pct = d / base * 100;
     $("labNote").textContent = Math.abs(t - win.nthr) < 0.005
-      ? "At our cut-off the lab gives about the same area as the full pipeline (which also smooths the image first)."
+      ? "This is our cut-off (red line). Drag the slider to see how the shoreline and area respond."
       : (d > 0 ? "Looser cut-off: " : "Stricter cut-off: ") + (d > 0 ? "+" : "") + A.fmt(d) + " km² (" + (pct > 0 ? "+" : "") + pct.toFixed(1) + "%). " +
         (t > 0.3 ? "Too loose: changing land, like wet mud and reeds, starts leaking in." : t < 0.11 ? "Too strict: real water drops out, because coherence over water is about 0.10, not zero." : "Small moves near our value barely change the shoreline; that's what the ±0.02 band in Plate 06 shows.");
   }

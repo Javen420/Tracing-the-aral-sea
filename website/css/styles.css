@@ -245,3 +245,13 @@ html { scroll-padding-top: calc(var(--mast-h) + 12px) }
 .cta-arrow { font-family: var(--mono); color: var(--water); font-weight: 700; display: inline-block; margin-right: 8px; animation: nudge 1.6s ease-in-out infinite }
 .cta.done { opacity: .55 } .cta.done .cta-arrow { animation: none }
 @keyframes nudge { 0%, 100% { transform: translateX(0) } 50% { transform: translateX(5px) } }
+
+/* Lab slider: drawn with a fixed 18px thumb in every browser so the red "our cut-off" mark lines up exactly */
+.thr-wrap { --thumb: 18px; height: 32px; display: flex; align-items: center }
+.thr-wrap input[type=range] { -webkit-appearance: none; appearance: none; margin: 0; padding: 0; height: 32px; background: transparent; cursor: pointer }
+.thr-wrap input[type=range]::-webkit-slider-runnable-track { height: 4px; background: var(--rule); border-radius: 2px }
+.thr-wrap input[type=range]::-moz-range-track { height: 4px; background: var(--rule); border-radius: 2px }
+.thr-wrap input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: var(--thumb); height: var(--thumb); margin-top: -7px; border-radius: 50%; background: var(--ink); border: 2px solid var(--card); box-shadow: 0 0 0 1px var(--ink) }
+.thr-wrap input[type=range]::-moz-range-thumb { width: var(--thumb); height: var(--thumb); border-radius: 50%; background: var(--ink); border: 2px solid var(--card); box-shadow: 0 0 0 1px var(--ink); box-sizing: border-box }
+.thr-wrap input[type=range]:focus-visible { outline: 2px solid var(--water); outline-offset: 2px }
+.thr-mark { top: 4px; height: 24px; transform: translateX(-50%) }
