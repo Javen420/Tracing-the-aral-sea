@@ -263,3 +263,34 @@ html { scroll-padding-top: calc(var(--mast-h) + 12px) }
 /* Plate 05: on-image note that the optical photo can be partial */
 .lens-frame .lens-disclaimer { left: 12px; bottom: 12px; top: auto; white-space: normal; max-width: min(78%, 420px); font-size: 10.5px; line-height: 1.35; background: color-mix(in srgb, var(--paper) 88%, transparent) }
 @media (max-width: 520px) { .lens-frame .lens-disclaimer { font-size: 9.5px; max-width: 90% } }
+
+/* Hero index map: where the Aral Sea is (sits in the hero, between the time-lapse and the chapter index) */
+.index-map { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px; align-items: center; margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--rule) }
+.index-lede { font-size: 19px; line-height: 1.55; color: var(--ink-2); max-width: 46ch; margin: 0 }
+.index-lede b { color: var(--ink) }
+.index-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 24px 0 0; border-top: 2px solid var(--ink) }
+.index-facts div { padding: 10px 12px 0 0 } .index-facts div + div { padding-left: 12px; border-left: 1px solid var(--rule) }
+.index-facts dt { font: 12px var(--mono); color: var(--ink-2); letter-spacing: .06em; text-transform: uppercase }
+.index-facts dd { margin: 4px 0 0; font: 700 16px/1.3 var(--display); color: var(--ink) }
+.frame picture, .frame picture img { display: block; width: 100%; height: auto }
+.hist-today { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--rule) }
+.hist-today .hist-card .btn { margin-top: 6px; text-decoration: none }
+@media (max-width: 920px) { .index-map { grid-template-columns: minmax(0, 1fr); gap: 24px } .index-facts { grid-template-columns: minmax(0, 1fr) } .index-facts div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--rule) } }
+.hist-today .frame img { position: static; opacity: 1 }
+.hist-today .hist-card .btn { align-self: flex-start; width: auto }
+.hero h1 { font-size: clamp(38px, 5vw, 66px); line-height: 1.05 }
+/* hero fills the first screen, so the index map below starts just under the fold */
+.hero-grid { min-height: calc(100vh - var(--mast-h) - 40px); min-height: calc(100svh - var(--mast-h) - 40px) }
+@media (max-width: 920px) { .hero-grid { min-height: 0 } }
+/* Soft scroll stops: hero → index map + chapter index → Plate 01. "proximity" only settles when
+   the reader stops near a stop, so it never traps the scroll; the rest of the page scrolls freely. */
+@media (min-width: 921px) and (min-height: 640px) {
+  html { scroll-snap-type: y proximity }
+  .hero-grid, .hero-screen2, #history { scroll-snap-align: start }
+  .hero-screen2 { min-height: calc(100vh - var(--mast-h) - 12px); min-height: calc(100svh - var(--mast-h) - 12px); display: flex; flex-direction: column; justify-content: center; padding: 8px 0 }
+  .hero-screen2 .index-map { margin-top: 0; border-top: 0; padding-top: 0; gap: 40px }
+  .hero-screen2 .index-frame { max-width: calc((100svh - var(--mast-h) - 290px) * 4 / 3); justify-self: end; width: 100% }
+  .hero-screen2 .chapters-index { margin-top: 28px }
+  .hero-screen2 .chapters-index strong { font-size: 20px }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-snap-type: none } }

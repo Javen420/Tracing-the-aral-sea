@@ -35,8 +35,8 @@
     <div class="hero-grid">
       <div>
         <p class="kicker">PLATE 00 · 46.2°N 61.2°E · NASA SPACE APPS 2026</p>
-        <h1>A sea that split in two, and the half that is coming back</h1>
-        <p class="lede">A dam saved the northern half of the Aral Sea in 2005. NASA and ISRO's new radar satellite, NISAR, now measures that water every 12 days, through cloud and darkness. Between June and October 2026 the shallow edges dried back.</p>
+        <h1>A sea split in two. Can a dam save half of it?</h1>
+        <p class="lede">In 2005 a dam was built to save the northern half. NASA–ISRO's NISAR radar now measures it every 12 days, and this summer its edges dried back. Is it saving the sea, or only holding it up?</p>
         <div class="counter" aria-live="off">
           <span class="big" id="heroKm">3,071</span>
           <span class="unit">km² of open water<br><span id="heroWin" class="mono">21 Jun–3 Jul 2026</span></span>
@@ -54,8 +54,26 @@
         <div class="hero-ticks" id="heroTicks" aria-hidden="true"></div>
         <div class="hero-ctrl">
           <button class="btn" id="heroPlay" type="button" aria-label="Pause the time-lapse">Pause</button>
-          <span class="coord">North Aral Sea · NISAR L-band radar, 9 passes, track 107 descending</span>
+          <span class="coord">North Aral Sea · NISAR L-band radar</span>
         </div>
+      </div>
+    </div>
+    <div class="hero-screen2">
+    <div class="index-map">
+      <div class="index-text">
+        <p class="kicker">INDEX MAP · 45.5°N 60.0°E</p>
+        <p class="index-lede">The Aral Sea lies in the heart of Central Asia, east of the Caspian Sea, on the border between <b>Kazakhstan</b> and <b>Uzbekistan</b>. Once the world's fourth-largest lake, it is now a few separate lakes.</p>
+        <dl class="index-facts">
+          <div><dt>North</dt><dd>Kazakhstan</dd></div>
+          <div><dt>South</dt><dd>Uzbekistan (Karakalpakstan)</dd></div>
+          <div><dt>Fed by</dt><dd>Syr Darya, Amu Darya</dd></div>
+        </dl>
+      </div>
+      <div class="frame index-frame">
+        <picture>
+          <source srcset="img/locator/where-is-the-aral-sea.png" media="(prefers-reduced-motion: reduce)">
+          <img src="img/locator/where-is-the-aral-sea.gif" width="800" height="600" loading="lazy" alt="Animated globe turning to Central Asia. Kazakhstan and Uzbekistan are highlighted with the border between them, then the map zooms in to today's North Aral and the western South Aral, mapped by NISAR in October 2026.">
+        </picture>
       </div>
     </div>
     <nav class="chapters-index" aria-label="Chapters">
@@ -63,6 +81,7 @@
       <a href="#story"><span class="n">02–05 · PRESENT</span><strong>What does the lake look like now?</strong><em>Learn to read radar, test yourself, then check it against Sentinel-2.</em></a>
       <a href="#north"><span class="n">06 · NORTH ARAL</span><strong>Where is water appearing or disappearing?</strong><em>Nine measured windows beside official reports.</em></a>
     </nav>
+    </div>
   </div>
 </section>
 
@@ -73,7 +92,7 @@
       <div class="plate-no">PLATE<b>01</b></div>
       <div>
         <h2>Sixty years of a sea in retreat</h2>
-        <p class="lede">Drag the slider through twelve moments. In the 1960s the rivers feeding the Aral were diverted to grow cotton. The sea split, the south kept drying, and a dam let the north recover. These images tell the story; the areas in this plate are not our measurements, except the last.</p>
+        <p class="lede">Drag the slider through twelve moments. In the 1960s the rivers feeding the Aral were diverted to grow cotton. The sea split, the south kept drying, and a dam was built to save the north. These images tell the story; the areas in this plate are not our measurements, except the last.</p>
       </div>
     </div>
     <div class="hist">
@@ -97,6 +116,21 @@
         <p class="src" id="histSrc"></p>
         <p class="src" id="histCredit"></p>
         <div style="display:flex;gap:8px"><button class="btn" id="histPrev" type="button">← Earlier</button><button class="btn solid" id="histNext" type="button">Later →</button></div>
+      </article>
+    </div>
+    <div class="hist hist-today">
+      <div class="frame">
+        <picture>
+          <source srcset="img/locator/one-sea-two-countries.png" media="(prefers-reduced-motion: reduce)">
+          <img src="img/locator/one-sea-two-countries.gif" width="800" height="600" loading="lazy" alt="Map of the Aral Sea basin. The historic sea, about 67,000 square kilometres, shrinks to the North Aral in Kazakhstan and the western South Aral in Uzbekistan's Karakalpakstan region, about 4,700 square kilometres mapped by NISAR in October 2026. The border between the two countries now crosses mostly dry seabed.">
+        </picture>
+      </div>
+      <article class="hist-card">
+        <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="yr">Today</span><span class="chip measured">Measured here</span></div>
+        <h3>One sea, two countries, two fates</h3>
+        <p>Where the slider ends: the North Aral, in Kazakhstan, sits behind the dam built to save it. Official figures say it has grown, but it relies on the Syr Darya's flow, and this summer NISAR saw its shallow edges dry back. The South Aral's western basin, in Uzbekistan, keeps shrinking, and the border between them now runs across dry seabed.</p>
+        <p class="src">Dashed: historic shoreline (Natural Earth). Blue: water mapped by NISAR, October 2026. Red: border.</p>
+        <a class="btn solid" href="#story">How NISAR maps the water →</a>
       </article>
     </div>
   </div>
@@ -272,7 +306,7 @@
       <div class="plate-no">PLATE<b>06</b></div>
       <div>
         <h2>The North Aral, window by window</h2>
-        <p class="lede">The dam brought the north back over two decades. Within 2026, the measurements show a summer drawdown. Nine coherence windows, June to October; each plate is one window. One window spans 24 days because NISAR's 8 August pass isn't available.</p>
+        <p class="lede">Official figures say the dam has let the north grow over two decades. Our 2026 measurements show the other side: a summer drawdown of 133 km². Four months can't tell a normal seasonal dip from gains slipping away, but this is the kind of change NISAR can now track every 12 days.</p>
       </div>
     </div>
     <div class="plates9" id="plates9" role="group" aria-label="Nine coherence windows"></div>
@@ -371,6 +405,8 @@
       <li><a href="https://astanatimes.com/2026/07/kazakhstan-steps-up-aral-restoration-water-infrastructure-and-conservation-reforms/">1.4 km³ directed since 1 Oct 2025</a>, Astana Times, July 2026.</li>
       <li><a href="https://www.trend.az/casia/kazakhstan/4216239.html">North Aral volume 23.40 km³ as of 10 Aug 2026</a>, Trend.</li>
       <li><a href="https://earth-search.aws.element84.com/v1">Sentinel-2 L2A via Earth Search</a>, Element84 / AWS Open Data; Copernicus Sentinel data 2026.</li>
+      <li><a href="https://euronews.com/2026/02/19/north-aral-sea-regains-a-third-of-its-water-thanks-to-restoration-efforts-spearheaded-by-k">North Aral Sea regains a third of its water</a>, Euronews, 19 Feb 2026: recovery limited to the north, and at risk as Syr Darya inflow falls.</li>
+      <li><a href="https://www.naturalearthdata.com/">Natural Earth</a> country boundaries and historic Aral Sea shoreline (public domain), drawn with <a href="https://d3js.org/d3-geo">d3-geo</a> for the locator maps.</li>
     </ol>
   </div>
 </section>
